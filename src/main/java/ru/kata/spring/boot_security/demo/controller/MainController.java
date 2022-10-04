@@ -1,18 +1,15 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
-
 import java.security.Principal;
 
 @Controller
 @RequestMapping("/main")
-@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public class MainController {
     private final UserService userService;
 
@@ -22,7 +19,6 @@ public class MainController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_USER')")
     public String showMainPage(Model model, Principal principal) {
         model.addAttribute("authorizedUser", userService.getUserByName(principal.getName()));
         model.addAttribute("userList", userService.getAllUsers());
